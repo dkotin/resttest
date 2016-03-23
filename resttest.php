@@ -12,7 +12,7 @@
 	.red{color: red;}
 </style>
 <?php
-	$methods = array('GET', 'POST', 'PUT');
+	$methods = array('GET', 'POST', 'PUT', 'DELETE');
 ?>
 This is a simple draft utility for rest API testing <br>
 <form method = POST>
