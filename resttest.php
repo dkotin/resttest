@@ -36,7 +36,7 @@ This is a simple draft utility for rest API testing <br>
 		$headers = escapeshellarg($headers);
 		$data = escapeshellarg($_POST['data']);
 		$method = escapeShellarg($_POST['method']);
-		$url = escapeshellarg($_POST['url']);
+		$url = escapeshellarg(trim($_POST['url']));
 		$command = "curl --header $headers --request $method $url --data $data";
 		exec($command, $output);
 		echo("<div style='font-size: 7pt; border: 1px dashed blue;'>$command</div>");
