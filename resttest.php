@@ -28,6 +28,10 @@ This is a simple draft utility for rest API testing <br>
  		<?php endforeach;?>
  	</select>
  	<br>
+ 	<input type="checkbox" name="curldebug" id="curldebug_input"> CURL debug output 
+ 	<br>
+ 	File: <input type="text" size=100 name="file" id="file_input" value="<?=htmlspecialchars(@$_POST['file'])?>"  placeholder="Absolute path to file"> 
+	<br>
  	<input type="submit">
  	<br>
 </form>
@@ -37,7 +41,15 @@ This is a simple draft utility for rest API testing <br>
 		$data = escapeshellarg($_POST['data']);
 		$method = escapeShellarg($_POST['method']);
 		$url = escapeshellarg(trim($_POST['url']));
-		$command = "curl --header $headers --request $method $url --data $data";
+		$file = trim($_POST['file']);
+		$command = "curl  -v --header $headers --request $method $url ";
+		//$command .= " --data $data ";
+		//var_dump($data);
+
+		$command .= " -F \"data=@$file\" ";
+		if(isset($_POST['curldebug'])){
+			$command .= " 2>&1 ";
+		}
 		exec($command, $output);
 		echo("<div style='font-size: 7pt; border: 1px dashed blue;'>$command</div>");
 		$jOutput = implode("\n", $output);
@@ -58,12 +70,20 @@ This is a simple draft utility for rest API testing <br>
 		window.onload = function(){
     		setTimeout(function(){
     			<?php 
-    				$iterations = array('url', 'headers', 'data', 'method');
+    				$iterations = array('url', 'headers', 'data', 'method', 'curldebug', 'file');
     				foreach($iterations as $item){
     					if(!isset($_POST[$item])){
     						?>
+    						
     							var stored = window.localStorage.getItem('<?=$item?>_input');
-                                document.getElementById('<?=$item?>_input').value = stored;
+   							    switch (document.getElementById('<?=$item?>_input').type == 'checkbox'){
+   							        case 'checkbox':
+     							            document.getElementById('<?=$item?>_input').checked = true;
+   							        		console.log('<?=$item?>');
+   							        	break;
+   							        default:
+		                                document.getElementById('<?=$item?>_input').value = stored;
+   							    }
     						<?php
     					}
     				}
