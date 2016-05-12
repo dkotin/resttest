@@ -38,15 +38,24 @@ This is a simple draft utility for rest API testing <br>
 	<?php if(isset($_POST['headers']) || isset($_POST['data'])){
 		$headers = trim($_POST['headers'], "\r\n");
 		$headers = escapeshellarg($headers);
-		$data = escapeshellarg($_POST['data']);
+		$data = $_POST['data'];
 		$method = escapeShellarg($_POST['method']);
 		$url = escapeshellarg(trim($_POST['url']));
 		$file = trim($_POST['file']);
 		$command = "curl  -v --header $headers --request $method $url ";
-		//$command .= " --data $data ";
-		//var_dump($data);
-
-		$command .= " -F \"data=@$file\" ";
+		if(!(trim($file))){
+			$data = escapeshellarg($data);
+		    $command .= " -d $data ";
+		}else{
+			$exploded=explode('&', $data);
+			foreach ($exploded as $item){
+				$command .= " -F $item ";
+			}
+			$command .= " -F \"file=@$file\" ";
+			if ($method != "'POST'"){
+				echo("<br><span style='color:red'>YOU ARE TRYING TO SEND A FILE WITH $method</span><br>");
+			}
+		}
 		if(isset($_POST['curldebug'])){
 			$command .= " 2>&1 ";
 		}
