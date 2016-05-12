@@ -30,7 +30,9 @@ This is a simple draft utility for rest API testing <br>
  	<br>
  	<input type="checkbox" name="curldebug" id="curldebug_input"> CURL debug output 
  	<br>
- 	File: <input type="text" size=100 name="file" id="file_input" value="<?=htmlspecialchars(@$_POST['file'])?>"  placeholder="Absolute path to file"> 
+ 	File: 
+ 	<input type="text" size=20 name="filename" id="filename_input" value="<?=htmlspecialchars(@$_POST['filename'])?>"  placeholder="File variable name"> 
+ 	<input type="text" size=100 name="file" id="file_input" value="<?=htmlspecialchars(@$_POST['file'])?>"  placeholder="Absolute path to file"> 
 	<br>
  	<input type="submit">
  	<br>
@@ -42,6 +44,7 @@ This is a simple draft utility for rest API testing <br>
 		$method = escapeShellarg($_POST['method']);
 		$url = escapeshellarg(trim($_POST['url']));
 		$file = trim($_POST['file']);
+		$filename = trim($_POST['filename']);
 		$command = "curl  -v --header $headers --request $method $url ";
 		if(!(trim($file))){
 			$data = escapeshellarg($data);
@@ -51,7 +54,7 @@ This is a simple draft utility for rest API testing <br>
 			foreach ($exploded as $item){
 				$command .= " -F $item ";
 			}
-			$command .= " -F \"file=@$file\" ";
+			$command .= " -F \"$filename=@$file\" ";
 			if ($method != "'POST'"){
 				echo("<br><span style='color:red'>YOU ARE TRYING TO SEND A FILE WITH $method</span><br>");
 			}
@@ -79,7 +82,7 @@ This is a simple draft utility for rest API testing <br>
 		window.onload = function(){
     		setTimeout(function(){
     			<?php 
-    				$iterations = array('url', 'headers', 'data', 'method', 'curldebug', 'file');
+    				$iterations = array('url', 'headers', 'data', 'method', 'curldebug', 'file', 'filename');
     				foreach($iterations as $item){
     					if(!isset($_POST[$item])){
     						?>
