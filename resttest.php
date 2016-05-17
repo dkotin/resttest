@@ -27,9 +27,8 @@ This is a simple draft utility for rest API testing <br>
  		<option value="<?=$method?>" id="method_input" <?php if($method==@$_POST['method']) echo('selected');?> ><?=$method?></option>
  		<?php endforeach;?>
  	</select>
- 	<br>
  	<input type="checkbox" name="curldebug" id="curldebug_input"> CURL debug output 
- 	<br>
+ 	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
  	<input type="checkbox" name="curlresponseheaders" id="curlresponseheaders_input"> Return HTTP response headers 
  	<br>
  	File: 
