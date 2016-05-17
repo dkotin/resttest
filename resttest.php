@@ -30,6 +30,8 @@ This is a simple draft utility for rest API testing <br>
  	<br>
  	<input type="checkbox" name="curldebug" id="curldebug_input"> CURL debug output 
  	<br>
+ 	<input type="checkbox" name="curlresponseheaders" id="curlresponseheaders_input"> Return HTTP response headers 
+ 	<br>
  	File: 
  	<input type="text" size=20 name="filename" id="filename_input" value="<?=htmlspecialchars(@$_POST['filename'])?>"  placeholder="File variable name"> 
  	<input type="text" size=100 name="file" id="file_input" value="<?=htmlspecialchars(@$_POST['file'])?>"  placeholder="Absolute path to file"> 
@@ -59,9 +61,15 @@ This is a simple draft utility for rest API testing <br>
 				echo("<br><span style='color:red'>YOU ARE TRYING TO SEND A FILE WITH $method</span><br>");
 			}
 		}
+
+		if(isset($_POST['curlresponseheaders'])){
+			$command .= " -i ";
+		}
+
 		if(isset($_POST['curldebug'])){
 			$command .= " 2>&1 ";
 		}
+
 		exec($command, $output);
 		echo("<div style='font-size: 7pt; border: 1px dashed blue;'>$command</div>");
 		$jOutput = implode("\n", $output);
@@ -73,7 +81,7 @@ This is a simple draft utility for rest API testing <br>
 			 	var_dump(json_decode($jOutput));
 			 } else {
 				echo("<br><div class='small red'>Output can't be  json-decoded. Providing it as is: </div>");
-			 	echo($jOutput);
+			 	echo("<code>".nl2br($jOutput)."</code>");
 			 }
 		echo('</div>');
 	}?>
