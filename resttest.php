@@ -2,27 +2,27 @@
 <body class="small">
 <style type="text/css">
     body {
-        font-size: small;
+        font-size: 12pt;
         font-family: Consolas, Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace, sans-serif;
     }
 
     input {
-        font-size: 7pt;
+        font-size: 10pt;
         margin: 5px;
     }
 
     textarea {
-        font-size: 7pt;
+        font-size: 10pt;
         margin: 2px;
     }
 
     select {
-        font-size: 7pt;
+        font-size: 10pt;
         margin: 2px;
     }
 
     .small {
-        font-size: 7pt;
+        font-size: 10pt;
     }
 
     .red {
@@ -85,7 +85,7 @@ This is a simple draft utility for rest API testing <br>
     } else {
         $exploded = explode('&', $data);
         foreach ($exploded as $item) {
-            $command .= " -F $item ";
+           // $command .= " -F $item ";
         }
         $command .= " -F \"$filename=@$file\" ";
         if ($method != "'POST'") {
@@ -102,7 +102,7 @@ This is a simple draft utility for rest API testing <br>
     }
 
     exec($command, $output);
-    echo("<div style='font-size: 7pt; border: 1px dashed blue;'>$command</div>");
+    echo("<div style='font-size: 10pt; border: 1px dashed blue;'>$command</div>");
     $jOutput = implode("\n", $output);
     echo('<div style="border: 1px dashed gray;">');
     if (
