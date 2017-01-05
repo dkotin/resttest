@@ -71,7 +71,7 @@ This is a simple draft utility for rest API testing <br>
     $url = escapeshellarg(trim($_POST['url']));
     $file = trim($_POST['file']);
     $filename = trim($_POST['filename']);
-    $command = "curl  -v --header $headers --request $method $url ";
+    $command = "curl  -v -g --header $headers --request $method $url ";
     if (!(trim($file))) {
         $data = escapeshellarg($data);
         /*
